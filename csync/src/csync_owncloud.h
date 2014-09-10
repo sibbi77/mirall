@@ -133,7 +133,7 @@ struct dav_session_s {
 
     char *error_string;
 
-    int read_timeout;
+    int read_timeout, connect_timeout;
 
     CSYNC *csync_ctx;
 

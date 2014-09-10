@@ -521,7 +521,12 @@ static int dav_connect(const char *base_url) {
 
     if (dav_session.read_timeout != 0) {
         ne_set_read_timeout(dav_session.ctx, dav_session.read_timeout);
-        DEBUG_WEBDAV("Timeout set to %u seconds", dav_session.read_timeout );
+        DEBUG_WEBDAV("Read timeout set to %u seconds", dav_session.read_timeout );
+    }
+
+    if (dav_session.connect_timeout != 0) {
+        ne_set_connect_timeout(dav_session.ctx, dav_session.connect_timeout);
+        DEBUG_WEBDAV("Connect timeout set to %u seconds", dav_session.connect_timeout );
     }
 
     snprintf( uaBuf, sizeof(uaBuf), "Mozilla/5.0 (%s) csyncoC/%s",
@@ -1030,8 +1035,17 @@ int owncloud_set_property(const char *key, void *data) {
         dav_session.proxy_port = *(int*)(data);
         return 0;
     }
-    if (c_streq(key, "read_timeout") || c_streq(key, "timeout")) {
+    if (c_streq(key, "timeout")) {
         dav_session.read_timeout = *(int*)(data);
+        dav_session.connect_timeout = *(int*)(data);
+        return 0;
+    }
+    if (c_streq(key, "read_timeout")) {
+        dav_session.read_timeout = *(int*)(data);
+        return 0;
+    }
+    if (c_streq(key, "connect_timeout")) {
+        dav_session.connect_timeout = *(int*)(data);
         return 0;
     }
     if( c_streq(key, "csync_context")) {
