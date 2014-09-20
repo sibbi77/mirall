@@ -535,4 +535,17 @@ void MirallConfigFile::setMonoIcons(bool useMonoIcons)
     settings.setValue(QLatin1String(monoIconsC), useMonoIcons);
 }
 
+int MirallConfigFile::neonDebugLevel() const
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    return settings.value(QLatin1String("neon_debug_level"), 0).toInt(); // default to 0 (disabled)
 }
+
+QString MirallConfigFile::neonDebugFile() const
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    return settings.value(QLatin1String("neon_debug_file")).toString();
+}
+
+}
+

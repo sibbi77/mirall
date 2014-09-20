@@ -112,6 +112,9 @@ public:
     void saveGeometryHeader(QHeaderView *header);
     void restoreGeometryHeader(QHeaderView *header);
 
+    int neonDebugLevel() const;
+    QString neonDebugFile() const;
+
 protected:
     QVariant getPolicySetting(const QString& policy, const QVariant& defaultValue = QVariant()) const;
     void storeData(const QString& group, const QString& key, const QVariant& value);

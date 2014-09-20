@@ -162,6 +162,7 @@ void PropagateRemoteMkdir::start()
     QScopedPointer<char, QScopedPointerPodDeleter> uri(
         ne_path_escape((_propagator->_remoteDir + _item._file).toUtf8()));
 
+    qDebug() << "** MKCOL " << uri.data();
     int rc = ne_mkcol(_propagator->_session, uri.data());
 
     /* Special for mkcol: it returns 405 if the directory already exists.

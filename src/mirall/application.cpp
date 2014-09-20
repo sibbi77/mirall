@@ -35,7 +35,7 @@
 #include "updater/updater.h"
 #include "creds/abstractcredentials.h"
 
-#include "config.h"
+#include <neon/ne_utils.h>
 
 #if defined(Q_OS_WIN)
 #include <windows.h>
@@ -346,6 +346,14 @@ void Application::setupLogging()
                 .arg(property("ui_lang").toString())
                 .arg(_theme->version());
 
+    MirallConfigFile cfg;
+    int neon_debug_level = cfg.neonDebugLevel();
+    QString neon_debug_file = cfg.neonDebugFile();
+    if (!neon_debug_file.isEmpty() && neon_debug_level != 0) {
+        FILE* debug_file = fopen( neon_debug_file.toLocal8Bit().constData(), "w" ); // FIXME we are not closing this file descriptor anywhere, the OS will clean it up
+        ne_debug_init( debug_file, neon_debug_level );
+        qDebug() << Q_FUNC_INFO << "Set neon debug file to" << neon_debug_file << "and debug level to" << neon_debug_level;
+    }
 }
 
 void Application::slotUseMonoIconsChanged(bool)
